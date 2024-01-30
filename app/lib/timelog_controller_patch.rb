@@ -4,6 +4,13 @@ module TimelogControllerPatch
 	def self.included(base)
 	base.class_eval do
 
+		# ============= BUGFIX undefined method filenam_for_export =====================
+
+		def filename_for_export(query, prefix)
+			timestamp = Time.now.strftime('%Y%m%d%H%M%S')
+			"#{prefix}_#{query.parameterize}_#{timestamp}"
+		end
+
 		def index
 			# ============= ERPmine_patch Redmine 5.1  =====================
 				set_filter_session
@@ -699,13 +706,6 @@ module TimelogControllerPatch
 					end
 				end
 			end
-		end
-
-		# ============= BUGFIX undefined method filenam_for_export =====================
-
-		def filename_for_export(query, prefix)
-			timestamp = Time.now.strftime('%Y%m%d%H%M%S')
-			"#{prefix}_#{query.parameterize}_#{timestamp}"
 		end
 
 	end
